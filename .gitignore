@@ -3,6 +3,7 @@ logs/
 reports/
 *.log
 node_modules/
+android.wdio.native.app.v2.2.0.apk
 
 npm-debug.log*
 yarn-debug.log*

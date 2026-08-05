@@ -1,0 +1,35 @@
+image: node:20
+
+stages:
+  - test
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - npm ci
+
+android_local_tests:
+  stage: test
+  script:
+    - npm run test:android
+  artifacts:
+    when: always
+    paths:
+      - reports/allure-results/
+      - logs/
+
+# Opcional: habilitar em projeto com BrowserStack configurado
+browserstack_tests:
+  stage: test
+  rules:
+    - if: '$BROWSERSTACK_USERNAME && $BROWSERSTACK_ACCESS_KEY && $BROWSERSTACK_APP_URL'
+  script:
+    - npm run test:browserstack
+  artifacts:
+    when: always
+    paths:
+      - reports/allure-results/
+      - logs/

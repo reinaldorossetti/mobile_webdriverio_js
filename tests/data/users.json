@@ -1,0 +1,22 @@
+{
+  "validUsers": [
+    {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    }
+  ],
+  "invalidUsers": [
+    {
+      "username": "locked_user",
+      "password": "wrong_password",
+      "expectedError": "valid email"
+    }
+  ],
+  "signupUsers": [
+    {
+      "name": "Usuario QA",
+      "email": "qa@example.com",
+      "password": "Password@123"
+    }
+  ]
+}
