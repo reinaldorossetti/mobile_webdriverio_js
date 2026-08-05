@@ -10,7 +10,12 @@ describe('Autenticação (Login/Cadastro)', () => {
   }
 
   beforeEach(async () => {
+    await driver.terminateApp('com.wdiodemoapp').catch(() => {})
     await driver.activateApp('com.wdiodemoapp')
+  })
+
+  afterEach(async () => {
+    await driver.terminateApp('com.wdiodemoapp').catch(() => {})
   })
 
   it('C01 - Deve realizar login com credenciais válidas', async () => {

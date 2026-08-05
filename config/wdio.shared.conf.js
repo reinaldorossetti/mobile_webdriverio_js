@@ -1,3 +1,4 @@
+import allureReporter from '@wdio/allure-reporter'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import dotenv from 'dotenv'
@@ -30,7 +31,7 @@ export const sharedConfig = {
     ['allure', {
       outputDir: path.resolve(__dirname, '../reports/allure-results'),
       disableWebdriverStepsReporting: true,
-      disableWebdriverScreenshotsReporting: false,
+      disableWebdriverScreenshotsReporting: true,
       addConsoleLogs: true,
       reportedEnvironmentVars: {
         TEST_ENV: process.env.TEST_ENV || 'local'
@@ -38,9 +39,18 @@ export const sharedConfig = {
     }]
   ],
 
-  afterTest: async function (_test, _context, { error }) {
+  afterTest: async function (test, _context, { error }) {
     if (error) {
-      await browser.takeScreenshot()
+      try {
+        const screenshotBase64 = await browser.takeScreenshot()
+        allureReporter.addAttachment(
+          `Failure - ${test.title}`,
+          Buffer.from(screenshotBase64, 'base64'),
+          'image/png'
+        )
+      } catch {
+        // sessão pode já ter sido encerrada pelo Appium; evita mascarar erro original do teste
+      }
     }
   }
 }

@@ -23,6 +23,8 @@ export const config = {
     'appium:automationName': 'UiAutomator2',
     'appium:app': path.resolve(__dirname, '../app/android/android.wdio.native.app.v2.2.0.apk'),
     'appium:autoGrantPermissions': true,
+    'appium:forceAppLaunch': true,
+    'appium:shouldTerminateApp': true,
     'appium:newCommandTimeout': 180
   }]
 }

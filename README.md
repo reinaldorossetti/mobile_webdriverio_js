@@ -104,6 +104,14 @@ Foi criado o arquivo `tests/data/users.json` como base para parametrização de 
 - `afterTest` configurado para screenshot automático em falha.
 - `@wdio/allure-reporter` configurado com saída em `reports/allure-results`.
 
+### Gerar relatório Allure em arquivo único
+
+Use o comando abaixo para gerar um `index.html` único em `reports/allure-report`:
+```bash
+npx allure generate --single-file reports/allure-results --clean -o reports/allure-report
+npx allure open reports/allure-report
+```
+
 ## Execução em ambientes diferentes
 
 - Android local: `config/wdio.android.local.conf.js`

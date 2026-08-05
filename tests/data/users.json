@@ -18,5 +18,22 @@
       "email": "qa@example.com",
       "password": "Password@123"
     }
-  ]
+  ],
+  "formData": {
+    "valid": {
+      "text": "Teste de formulário WebdriverIO"
+    }
+  },
+  "signupInvalidEmail": {
+    "email": "qa-email-invalido",
+    "password": "Password@123",
+    "repeatPassword": "Password@123",
+    "expectedError": "valid email"
+  },
+  "signupRequiredFields": {
+    "email": "",
+    "password": "",
+    "repeatPassword": "",
+    "expectedError": "please enter"
+  }
 }
