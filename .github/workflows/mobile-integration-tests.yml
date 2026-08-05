@@ -48,7 +48,7 @@ jobs:
       - name: Install Appium UiAutomator2 driver
         run: npx appium driver install uiautomator2
 
-      - name: Run tests on Android emulator
+      - name: Run WebdriverIO tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -60,7 +60,7 @@ jobs:
           script: |
             mkdir -p reports logs
             adb devices
-            npm run test:android | tee reports/wdio-android.log
+            npx wdio run ./config/wdio.android.local.conf.js | tee reports/wdio-android.log
             TEST_EXIT=${PIPESTATUS[0]}
             exit ${TEST_EXIT}
 
