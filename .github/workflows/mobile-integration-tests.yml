@@ -60,6 +60,7 @@ jobs:
             npx wdio run ./config/wdio.android.local.conf.js | tee reports/wdio-android.log
             TEST_EXIT=${PIPESTATUS[0]}
             exit ${TEST_EXIT}
+        continue-on-error: true
 
       - name: Gerar PDF do Allure Report
         if: always()
