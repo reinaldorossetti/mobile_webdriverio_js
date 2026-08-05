@@ -37,19 +37,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Ensure Android APK exists
+      - name: Download Android APK
         run: |
           mkdir -p app/android
-          if [ ! -f app/android/android.wdio.native.app.v2.2.0.apk ]; then
-            if [ -n "${{ secrets.ANDROID_APP_URL }}" ]; then
-              echo "Downloading APK from ANDROID_APP_URL secret..."
-              curl -fL "${{ secrets.ANDROID_APP_URL }}" -o app/android/android.wdio.native.app.v2.2.0.apk
-            else
-              echo "APK not found at app/android/android.wdio.native.app.v2.2.0.apk"
-              echo "Set repository secret ANDROID_APP_URL with a direct APK download URL."
-              exit 1
-            fi
-          fi
+          APK_URL="https://github.com/webdriverio/native-demo-app/releases/download/v2.2.0/android.wdio.native.app.v2.2.0.apk"
+          echo "Downloading APK from release URL..."
+          curl --retry 5 --retry-delay 2 --retry-all-errors -fL "$APK_URL" -o app/android/android.wdio.native.app.v2.2.0.apk
+          ls -lh app/android/android.wdio.native.app.v2.2.0.apk
 
       - name: Install Appium UiAutomator2 driver
         run: npx appium driver install uiautomator2
