@@ -45,9 +45,6 @@ jobs:
           curl --retry 5 --retry-delay 2 --retry-all-errors -fL "$APK_URL" -o app/android/android.wdio.native.app.v2.2.0.apk
           ls -lh app/android/android.wdio.native.app.v2.2.0.apk
 
-      - name: Install Appium UiAutomator2 driver
-        run: npx appium driver install uiautomator2
-
       - name: Run WebdriverIO tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
