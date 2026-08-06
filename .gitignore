@@ -4,6 +4,7 @@ reports/
 *.log
 node_modules/
 android.wdio.native.app.v2.2.0.apk
+ios.simulator.wdio.native.app.v2.2.0.zip
 
 npm-debug.log*
 yarn-debug.log*
