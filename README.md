@@ -4,6 +4,9 @@ Planejamento e esqueleto inicial para automação mobile com **WebdriverIO + App
 
 Os testes estão usando a esteira do Github Actions criando um emulador android para executar os testes, e gerando o relatório no Allure report, mas podem ser adaptados para GitLab CI/CD ou outro provedor de CI/CD.
 
+O relatório na esteira do Github Actions:
+https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
+
 .github/workflows/
 browserstack-tests.yml
 mobile-integration-tests.yml

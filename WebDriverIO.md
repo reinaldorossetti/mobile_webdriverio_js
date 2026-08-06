@@ -3,9 +3,6 @@
 Este documento é um **README técnico focado em WebDriverIO com Appium**, com passo a passo de instalação, configuração, comandos principais, modelagem do projeto e boas práticas para automação mobile.
 
 
-O relatório na esteira do Github Actions:
-https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
-
 ## 1) Visão geral da stack
 
 - **Framework de automação:** WebDriverIO
