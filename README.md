@@ -7,11 +7,11 @@ Os testes estão usando a esteira do Github Actions criando um emulador android 
 O relatório na esteira do Github Actions:
 https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
 
+** Observação: ** Temos o pipeline para rodar no browser stack, mas precisamos de uma conta paga para conseguir subir o app e rodar os testes. Por isso, a execução local é a forma mais prática de validar os testes.
+
 .github/workflows/
 browserstack-tests.yml
 mobile-integration-tests.yml
-
-** Observação: ** Temos o pipeline para rodar no browser stack, mas precisamos de uma conta paga para conseguir subir o app e rodar os testes. Por isso, a execução local é a forma mais prática de validar os testes.
 
 Após clonar o projeto, instale as dependências e execute os testes Android localmente com:
 ```bash
@@ -237,4 +237,4 @@ https://webdriver.io/docs/appium/
 https://webdriver.io/docs/api/mobile  
 https://webdriver.io/docs/api/expect-webdriverio/  
 https://github.com/webdriverio/native-demo-app/releases  
-https://app-automate.browserstack.com/dashboard/qig/  setup-browserstack-wdio-service  
+https://app-automate.browserstack.com/dashboard/qig/setup-browserstack-wdio-service  
