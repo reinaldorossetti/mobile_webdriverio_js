@@ -51,3 +51,12 @@ jobs:
             reports/wdio-browserstack.log
             logs
           retention-days: 30
+
+      - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages  # default: gh-pages
+          publish_dir: reports/allure-report
+          destination_dir: allure-report

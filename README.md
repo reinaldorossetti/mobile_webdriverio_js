@@ -2,6 +2,19 @@
 
 Planejamento e esqueleto inicial para automação mobile com **WebdriverIO + Appium + Mocha + Chai**, seguindo os requisitos definidos em `Requisitos.md`.
 
+Os testes estão usando a esteira do Github Actions criando um emulador android para executar os testes, e gerando o relatório no Allure report, mas podem ser adaptados para GitLab CI/CD ou outro provedor de CI/CD.
+
+.github/workflows/
+browserstack-tests.yml
+mobile-integration-tests.yml
+
+** Observação: ** Temos o pipeline para rodar no browser stack, mas precisamos de uma conta paga para conseguir subir o app e rodar os testes. Por isso, a execução local é a forma mais prática de validar os testes.
+
+Após clonar o projeto, instale as dependências e execute os testes Android localmente com:
+```bash
+npm run test:android
+```
+
 ## Objetivo
 
 Estruturar o projeto para testes do app nativo:
