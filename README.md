@@ -209,26 +209,32 @@ npx wdio run ./config/wdio.android.local.conf.js --spec ./tests/specs/navigation
 npx wdio run ./config/wdio.android.local.conf.js --spec ./tests/specs/forms.spec.js
 ```
 
-Para executar a suíte completa ou uma feature em outro ambiente, substitua `wdio.android.local.conf.js` por `wdio.ios.local.conf.js` ou `wdio.browserstack.conf.js`.
+Para executar a suíte completa ou uma feature em outro ambiente, substitua `wdio.android.local.conf.js` por `wdio.ios.local.conf.js` ou `wdio.browserstack.conf.js`.  
 
-## Execução em ambientes diferentes
+## Execução em ambientes diferentes  
 
-- Android local: `config/wdio.android.local.conf.js`
-- iOS local: `config/wdio.ios.local.conf.js`
-- BrowserStack (opcional): `config/wdio.browserstack.conf.js`
+- Android local: `config/wdio.android.local.conf.js`  
+- iOS local: `config/wdio.ios.local.conf.js`  
+- BrowserStack (opcional): `config/wdio.browserstack.conf.js`  
 
-## Variáveis de ambiente
+## Variáveis de ambiente  
 
-Arquivo `.env` criado com placeholders para BrowserStack:
+Arquivo `.env` criado com placeholders para BrowserStack:  
 
-- `BROWSERSTACK_USERNAME`
-- `BROWSERSTACK_ACCESS_KEY`
-- `BROWSERSTACK_APP_URL`
+- `BROWSERSTACK_USERNAME`  
+- `BROWSERSTACK_ACCESS_KEY`  
+- `BROWSERSTACK_APP_URL`  
 
-## Próximos passos sugeridos
+## Próximos passos sugeridos  
 
-1. Implementar métodos dos Page Objects.
-2. Implementar lógica dos 10 cenários.
-3. Incluir asserts com Chai.
-4. Refinar massa de dados para cenários positivos e negativos.
-5. Publicar/visualizar relatório Allure após execução.
+1. Utilizar um arquivo de dados (CSV, JSON) para parametrizar alguns dos testes, permitindo a execução com diferentes conjuntos de dados (data-driven).  
+2. Integrar o projeto com o BrowserStack para executar os testes em dispositivos reais.  
+
+## Referência:   
+
+[Requisitos.md](./Requisitos.md)
+https://webdriver.io/docs/appium/
+https://webdriver.io/docs/api/mobile
+https://webdriver.io/docs/api/expect-webdriverio/
+https://github.com/webdriverio/native-demo-app/releases
+https://app-automate.browserstack.com/dashboard/qig/setup-browserstack-wdio-service
