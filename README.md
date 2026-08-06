@@ -9,11 +9,8 @@ https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
 
 ** Observação: ** Temos o pipeline para rodar no browser stack, mas precisamos de uma conta paga para conseguir subir o app e rodar os testes. Por isso, a execução local é a forma mais prática de validar os testes.
 
-.github/workflows/
-browserstack-tests.yml
-mobile-integration-tests.yml
-
 Após clonar o projeto, instale as dependências e execute os testes Android localmente com:
+
 ```bash
 npm run test:android
 ```
