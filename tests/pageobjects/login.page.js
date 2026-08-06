@@ -53,9 +53,10 @@ class LoginPage extends BasePage {
   }
 
   async loginWith(username, password) {
-    await this.setValueFirstVisible(LoginPage.emailInputSelectors, username)
-    await this.setValueFirstVisible(LoginPage.passwordInputSelectors, password)
+    await this.setValue(LoginPage.emailInputSelectors, username)
+    await this.setValue(LoginPage.passwordInputSelectors, password)
     await this.tapFirstVisible(LoginPage.loginButtonSelectors)
+    await this.takeEvidence('LoginPage-login-attempt')
   }
 
   async assertLoginError(expectedMessage) {

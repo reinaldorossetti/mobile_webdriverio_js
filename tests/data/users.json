@@ -21,7 +21,7 @@
   ],
   "formData": {
     "valid": {
-      "text": "Teste de formulário WebdriverIO"
+      "text": "Teste#$%!@123 WebdriverIO"
     }
   },
   "signupInvalidEmail": {

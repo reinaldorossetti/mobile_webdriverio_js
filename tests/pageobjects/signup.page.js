@@ -50,7 +50,6 @@ class SignupPage extends BasePage {
     await this.ensureAppInForeground()
     await this.tapFirstVisible(SignupPage.tabLoginSelectors)
     await this.tapFirstVisible(SignupPage.signupContainerSelectors)
-    await this.waitForScreen(SignupPage.signupButtonSelectors)
   }
 
   async assertOnSignupTab() {
@@ -63,9 +62,10 @@ class SignupPage extends BasePage {
   }
 
   async fillSignupForm(userData) {
-    await this.setValueFirstVisible(SignupPage.emailInputSelectors, userData.email ?? '')
-    await this.setValueFirstVisible(SignupPage.passwordInputSelectors, userData.password ?? '')
-    await this.setValueFirstVisible(
+    await this.waitForScreen(SignupPage.emailInputSelectors)
+    await this.setValue(SignupPage.emailInputSelectors, userData.email ?? '')
+    await this.setValue(SignupPage.passwordInputSelectors, userData.password ?? '')
+    await this.setValue(
       SignupPage.repeatPasswordInputSelectors,
       userData.repeatPassword ?? userData.password ?? ''
     )

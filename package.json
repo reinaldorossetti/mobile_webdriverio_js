@@ -8,9 +8,12 @@
     "test:android": "wdio run ./config/wdio.android.local.conf.js",
     "test:ios": "wdio run ./config/wdio.ios.local.conf.js",
     "test:browserstack": "wdio run ./config/wdio.browserstack.conf.js",
+    "lint": "eslint config tests --max-warnings=0",
+    "docs": "jsdoc config tests -r -d reports/jsdoc",
     "report:allure": "npx allure generate reports/allure-results --clean -o reports/allure-report && npx allure open reports/allure-report"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@wdio/allure-reporter": "^9.30.1",
     "@wdio/appium-service": "^9.30.1",
     "@wdio/browserstack-service": "^9.30.1",
@@ -22,6 +25,9 @@
     "appium": "^3.1.0",
     "appium-uiautomator2-driver": "^8.2.2",
     "chai": "^5.2.0",
-    "dotenv": "^16.6.1"
+    "dotenv": "^16.6.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.9.0",
+    "jsdoc": "^4.0.5"
   }
 }

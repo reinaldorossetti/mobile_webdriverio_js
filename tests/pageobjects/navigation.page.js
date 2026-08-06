@@ -29,6 +29,7 @@ class NavigationPage extends BasePage {
 
   async goToForms() {
     await this.tapFirstVisible(NavigationPage.formsTabSelectors)
+    await this.takeEvidence('goToForms-after-tap')
   }
 }
 

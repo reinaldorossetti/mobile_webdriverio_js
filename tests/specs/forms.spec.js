@@ -1,10 +1,14 @@
 import SignupPage from '../pageobjects/signup.page.js'
 import FormsPage from '../pageobjects/forms.page.js'
 import usersData from '../data/users.json' with { type: 'json' }
+import allureReporter from '@wdio/allure-reporter'
+
+const { textInputResultSelectors } = FormsPage.constructor
 
 describe('Formulários e mensagens de erro', () => {
+
   beforeEach(async () => {
-    await driver.terminateApp('com.wdiodemoapp').catch(() => {})
+    await driver.reloadSession()
     await driver.activateApp('com.wdiodemoapp')
   })
 
@@ -13,31 +17,49 @@ describe('Formulários e mensagens de erro', () => {
   })
 
   it('C08 - Deve preencher e enviar formulário com dados válidos', async () => {
-    const formData = usersData.formData?.valid?.text || `Mensagem QA ${Date.now()}`
+    const formDataText = usersData.formData?.valid?.text
 
+    allureReporter.addStep('Acessar a tela de Formulários')
     await FormsPage.openForms()
-    await FormsPage.fillTextInput(formData)
+
+    allureReporter.addStep('Selecionar webdriver.io is awesome no Dropdown')
+    await FormsPage.selectDropdownOption()
+    
+    allureReporter.addStep('Preencher o campo de texto com dados válidos e Envia')
+    await FormsPage.fillTextInput(formDataText)
     await FormsPage.submitForm()
-    await FormsPage.assertTextResultContains(formData)
+
+    allureReporter.addStep('Validar e fechar o feedback do botão ativo')
+    await FormsPage.assertNativeModalContains('This button is active')
+
+    allureReporter.addStep('Validar o texto enviado no resultado')
+    await expect(await $(textInputResultSelectors[0])).toHaveText(formDataText);
   })
 
   it('C09 - Deve exibir erro para e-mail inválido', async () => {
     const invalidSignup = usersData.signupInvalidEmail
 
+    allureReporter.addStep('Acessar a tela de cadastro')
     await SignupPage.openSignup()
     await SignupPage.assertOnSignupTab()
+
+    allureReporter.addStep('Preencher o cadastro com e-mail inválido')
     await SignupPage.fillSignupForm(invalidSignup)
     await SignupPage.submitSignup()
-    await SignupPage.assertSignupError(invalidSignup.expectedError)
+
+    allureReporter.addStep('Validar mensagem de erro do e-mail inválido')
+    await SignupPage.assertNativeModalContains('Please enter a valid email address')
   })
 
   it('C10 - Deve exibir erro para campos obrigatórios não preenchidos', async () => {
-    const requiredFieldError = usersData.signupRequiredFields
-
+    allureReporter.addStep('Acessar a tela de cadastro')
     await SignupPage.openSignup()
     await SignupPage.assertOnSignupTab()
-    await SignupPage.fillSignupForm(requiredFieldError)
+
+    allureReporter.addStep('Enviar cadastro sem preencher os campos obrigatórios')
     await SignupPage.submitSignup()
-    await SignupPage.assertSignupError(requiredFieldError.expectedError)
+
+    allureReporter.addStep('Validar mensagem de erro dos campos obrigatórios')
+    await SignupPage.assertNativeModalContains('Please enter a valid email address')
   })
 })

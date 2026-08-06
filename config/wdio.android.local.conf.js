@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename)
 export const config = {
   ...sharedConfig,
   maxInstances: 1,
+  maxInstancesPerCapability: 1,
   port: 4723,
   services: [
     ['appium', {

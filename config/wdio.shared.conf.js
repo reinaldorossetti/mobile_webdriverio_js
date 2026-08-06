@@ -1,7 +1,7 @@
-import allureReporter from '@wdio/allure-reporter'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import dotenv from 'dotenv'
+import { captureFailureScreenshot } from '../tests/helpers/screenshot.helper.js'
 
 dotenv.config()
 
@@ -42,14 +42,9 @@ export const sharedConfig = {
   afterTest: async function (test, _context, { error }) {
     if (error) {
       try {
-        const screenshotBase64 = await browser.takeScreenshot()
-        allureReporter.addAttachment(
-          `Failure - ${test.title}`,
-          Buffer.from(screenshotBase64, 'base64'),
-          'image/png'
-        )
+        await captureFailureScreenshot(test.title)
       } catch {
-        // sessão pode já ter sido encerrada pelo Appium; evita mascarar erro original do teste
+        // sessão pode já ter sido encerrada; evita mascarar o erro original do teste
       }
     }
   }

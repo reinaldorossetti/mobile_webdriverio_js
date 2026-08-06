@@ -1,0 +1,12 @@
+{
+  "platformName": "Android",
+  "appium:automationName": "UiAutomator2",
+  "appium:deviceName": "moto g86 5G",
+  "appium:platformVersion": "16",
+  "appium:udid": "ZF525KTJ77",
+  "appium:app": "D:\\GitHub\\mobile_webdriverio_js\\app\\android\\android.wdio.native.app.v2.2.0.apk",
+  "appium:autoGrantPermissions": true,
+  "appium:forceAppLaunch": true,
+  "appium:shouldTerminateApp": true,
+  "appium:newCommandTimeout": 180
+}

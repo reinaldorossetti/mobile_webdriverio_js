@@ -117,6 +117,39 @@ Arquivos já preparados:
 - `config/wdio.ios.local.conf.js` → capabilities iOS local com app zip
 - `config/wdio.browserstack.conf.js` → execução em nuvem (BrowserStack)
 
+### Onde a instância `driver` é criada
+
+A instância do `driver` não é criada manualmente nos testes com `new` ou `remote()`. Ela é criada automaticamente pelo **WebdriverIO Local Runner** quando um comando `wdio run` é executado, por exemplo:
+
+```bash
+npm run test:android
+```
+
+Esse script executa `config/wdio.android.local.conf.js`. O WebdriverIO inicia o serviço Appium configurado em `services`, lê as `capabilities` e cria uma sessão WebDriver com o Appium:
+
+```js
+services: [
+	['appium', {
+		logPath: path.resolve(__dirname, '../logs')
+	}]
+],
+port: 4723,
+capabilities: [{
+	platformName: 'Android',
+	'appium:automationName': 'UiAutomator2',
+	'appium:app': path.resolve(__dirname, '../app/android/android.wdio.native.app.v2.2.0.apk')
+}]
+```
+
+Depois que a sessão é criada, o WebdriverIO disponibiliza globalmente os objetos `driver` e `browser`. Por isso os testes podem chamar diretamente métodos como:
+
+```js
+await driver.reloadSession()
+await driver.activateApp('com.wdiodemoapp')
+```
+
+O `reloadSession()` encerra a sessão atual e solicita uma nova sessão ao Appium; ele não é necessário para criar a primeira sessão, pois essa etapa é feita automaticamente pelo runner antes da execução dos testes.
+
 ---
 
 ## 5) Principais comandos
@@ -154,8 +187,72 @@ npm run report:allure
 ## Iniciar Appium manualmente (opcional)
 
 ```bash
-appium
+npx appium server --address 127.0.0.1 --port 4723 --log-level info
 ```
+
+## Configurar o Appium Inspector
+
+O arquivo `config/appium-inspector.android.json` contém as capabilities Android do projeto em formato JSON para importar ou copiar no Appium Inspector.
+
+No Appium Inspector, configure:
+
+- **Remote Host:** `127.0.0.1`
+- **Remote Port:** `4723`
+- **Remote Path:** `/`
+- **Capabilities:** conteúdo de `config/appium-inspector.android.json`
+
+Exemplo das capabilities:
+
+```json
+{
+	"platformName": "Android",
+	"appium:automationName": "UiAutomator2",
+	"appium:deviceName": "moto g86 5G",
+	"appium:platformVersion": "16",
+	"appium:udid": "ZF525KTJ77",
+	"appium:app": "D:\\GitHub\\mobile_webdriverio_js\\app\\android\\android.wdio.native.app.v2.2.0.apk",
+	"appium:autoGrantPermissions": true,
+	"appium:forceAppLaunch": true,
+	"appium:shouldTerminateApp": true,
+	"appium:newCommandTimeout": 180
+}
+```
+
+As capabilities acima já estão configuradas para o dispositivo local do projeto (`moto g86 5G`, Android `16`, UDID `ZF525KTJ77`). Se o UDID mudar, obtenha o novo valor com `adb devices` e atualize `appium:udid`.
+
+### Exemplo usando emulador Android
+
+Para usar um emulador em vez do dispositivo físico, remova `appium:udid` e informe o nome do AVD em `appium:deviceName`. Por exemplo:
+
+```json
+{
+	"platformName": "Android",
+	"appium:automationName": "UiAutomator2",
+	"appium:deviceName": "Pixel_3a_XL",
+	"appium:platformVersion": "16",
+	"appium:app": "D:\\GitHub\\mobile_webdriverio_js\\app\\android\\android.wdio.native.app.v2.2.0.apk",
+	"appium:autoGrantPermissions": true,
+	"appium:forceAppLaunch": true,
+	"appium:shouldTerminateApp": true,
+	"appium:newCommandTimeout": 180
+}
+```
+
+Liste os emuladores disponíveis com:
+
+```bash
+emulator -list-avds
+```
+
+Inicie o AVD escolhido antes de iniciar a sessão no Appium Inspector:
+
+```bash
+emulator -avd Pixel_3a_XL
+```
+
+O valor de `appium:deviceName` deve ser exatamente o nome retornado por `emulator -list-avds`, e `appium:platformVersion` deve corresponder à versão Android da imagem instalada no AVD.
+
+Inicie o Appium antes de clicar em **Start Session** no Inspector. Não execute simultaneamente o serviço Appium do WebdriverIO na mesma porta `4723`, pois isso causa conflito entre os servidores.
 
 ---
 
@@ -242,6 +339,164 @@ tests/pageobjects/
 
 7. **Clareza dos cenários**
 	- Nomear testes com padrão: `CXX - descrição`
+
+### 8.1 Localização de elementos mobile
+
+No WebdriverIO, os elementos são localizados com `$` para um elemento e `$$` para uma coleção de elementos. Em aplicações nativas, o Appium traduz esses seletores para os mecanismos de localização do Android ou iOS.
+
+```js
+const loginButton = await $('~button-LOGIN')
+const formFields = await $$('android.widget.EditText')
+```
+
+#### Principais estratégias
+
+**Accessibility ID** é a estratégia preferencial para elementos mobile porque costuma ser rápida, estável e compartilhada entre Android e iOS:
+
+```js
+const emailInput = await $('~input-email')
+await emailInput.setValue('qa@example.com')
+```
+
+O prefixo `~` representa um `accessibility id`. No Android, normalmente corresponde ao atributo `content-desc`; no iOS, ao identificador de acessibilidade.
+
+**ID ou resource-id** pode ser usado quando o aplicativo expõe um identificador nativo:
+
+```js
+const emailInput = await $('id=com.example.app:id/input-email')
+```
+
+**Classe nativa** localiza elementos pelo tipo de widget. É útil como fallback, mas pode retornar vários elementos:
+
+```js
+const inputs = await $$('android.widget.EditText')
+await inputs[0].setValue('qa@example.com')
+```
+
+**UiSelector** permite combinar propriedades específicas do Android:
+
+```js
+const loginButton = await $('android=new UiSelector().text("LOGIN")')
+```
+
+**XPath** permite combinar atributos e hierarquia. Deve ser usado com moderação, pois tende a ser mais lento e frágil:
+
+```js
+const loginButton = await $('//*[@content-desc="button-LOGIN"]')
+const errorMessage = await $('//*[@text="Please enter a valid email"]')
+```
+
+Em iOS, também podem ser utilizados Predicate String e Class Chain:
+
+```js
+const loginButton = await $('-ios predicate string:name == "button-LOGIN"')
+const emailInput = await $('-ios class chain:**/XCUIElementTypeTextField[`name == "input-email"`]')
+```
+
+Boas práticas para seletores:
+
+- Priorize `accessibility id` (`~id-do-elemento`).
+- Evite seletores baseados em texto que pode mudar por idioma.
+- Evite XPath absoluto, como `/hierarchy/.../element[3]`.
+- Centralize seletores nos Page Objects, nunca diretamente nos specs.
+- Use `$$` somente quando realmente precisar trabalhar com uma coleção.
+
+### 8.2 Tipos de espera no WebdriverIO
+
+As esperas devem aguardar uma condição real do aplicativo, em vez de depender de tempos fixos. O timeout padrão do projeto é definido por `waitforTimeout` na configuração do WebdriverIO.
+
+#### `waitForExist`
+
+Aguarda o elemento existir na árvore da tela. O elemento pode ainda não estar visível:
+
+```js
+const feedback = await $('~feedback-message')
+await feedback.waitForExist({ timeout: 10000 })
+```
+
+#### `waitForDisplayed`
+
+Aguarda o elemento existir e estar visível para o usuário:
+
+```js
+const loginButton = await $('~button-LOGIN')
+await loginButton.waitForDisplayed({ timeout: 15000 })
+await loginButton.click()
+```
+
+#### `waitForEnabled`
+
+Aguarda um controle estar habilitado antes da interação:
+
+```js
+const submitButton = await $('~button-SIGN UP')
+await submitButton.waitForEnabled({ timeout: 10000 })
+await submitButton.click()
+```
+
+#### `waitForClickable`
+
+Aguarda o elemento estar disponível para clique. Em telas mobile, `waitForDisplayed` combinado com `waitForEnabled` costuma ser mais explícito:
+
+```js
+const continueButton = await $('~button-CONTINUE')
+await continueButton.waitForClickable({ timeout: 10000 })
+await continueButton.click()
+```
+
+#### `waitUntil`
+
+Permite aguardar uma condição personalizada, como a mudança de texto ou de tela:
+
+```js
+await browser.waitUntil(
+	async () => {
+		const result = await $('~input-text-result')
+		return (await result.getText()).includes('Mensagem QA')
+	},
+	{
+		timeout: 15000,
+		interval: 500,
+		timeoutMsg: 'O resultado do formulário não foi atualizado'
+	}
+)
+```
+
+Também é possível usar os matchers do WebdriverIO quando o projeto estiver configurado para eles:
+
+```js
+await expect($('~feedback-message')).toBeDisplayed()
+await expect($('~feedback-message')).toHaveText(expect.stringContaining('sucesso'))
+```
+
+#### `pause`
+
+`browser.pause(ms)` interrompe a execução por um tempo fixo. Deve ser usado apenas quando não existe uma condição observável melhor, pois deixa o teste mais lento e instável:
+
+```js
+await browser.pause(1000)
+```
+
+Prefira sempre uma espera condicional:
+
+```js
+await $('~feedback-message').waitForDisplayed({ timeout: 10000 })
+```
+
+#### Espera reutilizável no Page Object
+
+Para evitar repetição, uma classe base pode encapsular a espera e a interação:
+
+```js
+async function tapWhenReady(selector, timeout = 15000) {
+	const element = await $(selector)
+	await element.waitForDisplayed({ timeout })
+	await element.waitForEnabled({ timeout })
+	await element.click()
+}
+```
+
+Em resumo: use `waitForExist` para presença, `waitForDisplayed` para visibilidade, `waitForEnabled` ou `waitForClickable` antes de interagir e `waitUntil` para condições de negócio ou transições específicas. 
 
 ---
 

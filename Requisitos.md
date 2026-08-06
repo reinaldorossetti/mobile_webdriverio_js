@@ -8,6 +8,7 @@ mobile. Os cenários devem incluir:
 ■ Navegação entre telas
 ■ Preenchimento de formulários
 ■ Verificação de mensagens de erro
+
 ○ Implementar o padrão Page Object para organizar os elementos da interface e as
 ações a serem realizadas.
 ○ Utilizar um arquivo de dados (CSV, JSON) para parametrizar alguns dos testes,
@@ -29,7 +30,7 @@ com os seguintes elementos:
 ■ Informações sobre o ambiente de teste
 
 4. Integração CI/CD:
-○ Configurar um pipeline de CI/CD (GitLab CI/CD) para automatizar a execução dos
+○ Configurar um pipeline de CI/CD para automatizar a execução dos
 testes a cada commit ou merge request.
 Sugestão de tecnologias e ferramentas que devem ser utilizadas:
 ● Linguagem: JavaScript
