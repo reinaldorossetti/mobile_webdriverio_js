@@ -12,6 +12,8 @@ export const sharedConfig = {
   runner: 'local',
   specs: [path.resolve(__dirname, '../tests/specs/**/*.spec.js')],
   maxInstances: 1,
+
+  // Opções: 'trace', 'debug', 'info', 'warn', 'error', 'silent'
   logLevel: 'info',
   bail: 0,
   waitforTimeout: 15000,
@@ -23,7 +25,8 @@ export const sharedConfig = {
     ui: 'bdd',
     timeout: 120000
   },
-
+  
+  // Salvar logs em um arquivo de saída
   outputDir: path.resolve(__dirname, '../logs'),
 
   reporters: [

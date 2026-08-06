@@ -16,6 +16,7 @@ describe('Autenticação (Login/Cadastro)', () => {
   })
 
   afterEach(async () => {
+    await LoginPage.takeEvidence('LoginPage-AfterEach')
     await driver.terminateApp('com.wdiodemoapp').catch(() => {})
   })
 

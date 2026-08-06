@@ -15,6 +15,7 @@ describe('Navegação entre telas', () => {
   })
 
   afterEach(async () => {
+    await LoginPage.takeEvidence('LoginPage-AfterEach')
     await driver.terminateApp('com.wdiodemoapp').catch(() => {})
   })
 

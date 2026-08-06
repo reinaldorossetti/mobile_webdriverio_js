@@ -2,7 +2,15 @@
 
 Este documento é um **README técnico focado em WebDriverIO com Appium**, com passo a passo de instalação, configuração, comandos principais, modelagem do projeto e boas práticas para automação mobile.
 
----
+Os testes estão usando a esteira do Github Actions criando um emulador android para executar os testes, mas podem ser adaptados para GitLab CI/CD ou outro provedor de CI/CD.
+
+Após clonar o projeto, instale as dependências e execute os testes Android localmente com:
+```bash
+npm run test:android
+```
+
+O relatório na esteira do Github Actions:
+https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
 
 ## 1) Visão geral da stack
 
