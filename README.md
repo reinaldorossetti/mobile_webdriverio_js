@@ -232,9 +232,9 @@ Arquivo `.env` criado com placeholders para BrowserStack:
 
 ## Referência:   
 
-[Requisitos.md](./Requisitos.md)
-https://webdriver.io/docs/appium/
-https://webdriver.io/docs/api/mobile
-https://webdriver.io/docs/api/expect-webdriverio/
-https://github.com/webdriverio/native-demo-app/releases
-https://app-automate.browserstack.com/dashboard/qig/setup-browserstack-wdio-service
+[Requisitos.md](./Requisitos.md)  
+https://webdriver.io/docs/appium/  
+https://webdriver.io/docs/api/mobile  
+https://webdriver.io/docs/api/expect-webdriverio/  
+https://github.com/webdriverio/native-demo-app/releases  
+https://app-automate.browserstack.com/dashboard/qig/  setup-browserstack-wdio-service  
