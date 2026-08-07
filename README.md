@@ -2,12 +2,12 @@
 
 Planejamento e esqueleto inicial para automação mobile com **WebdriverIO + Appium + Mocha + Chai**, seguindo os requisitos definidos em `Requisitos.md`.
 
-Os testes estão usando a esteira do Github Actions criando um emulador android para executar os testes, e gerando o relatório no Allure report, mas podem ser adaptados para GitLab CI/CD ou outro provedor de CI/CD.
+Os testes estão usando a esteira do Github Actions criando um emulador Android (`mobile-integration-tests.yml`) e um simulador iOS (`ios-integration-tests.yml`) para executar os testes, gerando o relatório no Allure report.
 
 O relatório na esteira do Github Actions:
 https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
 
-** Observação: ** Temos o pipeline para rodar no browser stack, mas precisamos de uma conta paga para conseguir subir o app e rodar os testes. Por isso, a execução local é a forma mais prática de validar os testes.
+** Observação: ** Temos também o pipeline para rodar no BrowserStack (`browserstack-tests.yml`), mas precisamos de uma conta paga para conseguir subir o app e rodar os testes.
 
 Após clonar o projeto, instale as dependências e execute os testes Android localmente com:
 
