@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename)
 
 export const sharedConfig = {
   runner: 'local',
-  specs: [path.resolve(__dirname, '../tests/specs/**/*.spec.js')],
+  specs: ['./tests/specs/**/*.spec.js'],
   maxInstances: 1,
 
   // Opções: 'trace', 'debug', 'info', 'warn', 'error', 'silent'
