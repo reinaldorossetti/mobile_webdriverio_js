@@ -1,0 +1,86 @@
+name: iOS Integration Tests (WebdriverIO)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ios-integration-tests:
+    name: iOS Integration Tests (Simulator)
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Appium XCUITest Driver
+        run: npx appium driver install xcuitest
+
+      - name: Download iOS Simulator App
+        run: |
+          mkdir -p app/ios
+          IOS_APP_URL="https://github.com/webdriverio/native-demo-app/releases/download/v2.2.0/ios.simulator.wdio.native.app.v2.2.0.zip"
+          echo "Downloading iOS Simulator app package..."
+          curl --retry 5 --retry-delay 2 --retry-all-errors -fL "$IOS_APP_URL" -o app/ios/ios.simulator.wdio.native.app.v2.2.0.zip
+          ls -lh app/ios/ios.simulator.wdio.native.app.v2.2.0.zip
+
+      - name: Boot iOS Simulator
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+          echo "Creating and booting iPhone 15 Simulator..."
+          UDID=$(xcrun simctl create "iPhone 15" "com.apple.CoreSimulator.SimDeviceType.iPhone-15" "com.apple.CoreSimulator.SimRuntime.iOS-17-5" || true)
+          if [ -n "$UDID" ]; then
+            xcrun simctl boot "$UDID" || true
+          fi
+          xcrun simctl list devices | grep -E "iPhone 15|Booted"
+
+      - name: Run WebdriverIO tests on iOS Simulator
+        run: |
+          mkdir -p reports logs
+          npx wdio run ./config/wdio.ios.local.conf.js | tee reports/wdio-ios.log
+          TEST_EXIT=${PIPESTATUS[0]}
+          exit ${TEST_EXIT}
+        continue-on-error: true
+
+      - name: Gerar Allure report
+        if: always()
+        run: |
+          npx allure generate --single-file reports/allure-results --clean -o reports/allure-report
+        continue-on-error: true
+
+      - name: Upload iOS test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-wdio-artifacts
+          path: |
+            reports/allure-results
+            reports/allure-report/index.html
+            reports/wdio-ios.log
+            logs
+          retention-days: 30
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## iOS Integration Tests (WebdriverIO)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🍏 Device: iPhone 15" >> $GITHUB_STEP_SUMMARY
+          echo "📱 Runtime: iOS 17.5" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Artifacts: ios-wdio-artifacts (allure-report, logs, wdio-ios.log)" >> $GITHUB_STEP_SUMMARY
