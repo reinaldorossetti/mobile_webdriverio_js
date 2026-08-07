@@ -39,7 +39,8 @@ class BasePage {
     const screenshotsDir = path.resolve('./reports/screenshots')
     const filePath = path.join(screenshotsDir, fileName)
 
-    const screenshotBase64 = await browser.takeScreenshot()
+    const activeDriver = globalThis.driver || globalThis.browser
+    const screenshotBase64 = await activeDriver.takeScreenshot()
     await fs.mkdir(screenshotsDir, { recursive: true })
     await fs.writeFile(filePath, screenshotBase64, 'base64')
 

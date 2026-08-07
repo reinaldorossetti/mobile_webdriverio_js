@@ -11,7 +11,8 @@ import allureReporter from '@wdio/allure-reporter'
  */
 export async function captureFailureScreenshot(scenarioName) {
   const safeName = scenarioName.replace(/[^a-zA-Z0-9-_]/g, '_')
-  const screenshotBase64 = await browser.takeScreenshot()
+  const activeDriver = globalThis.driver || globalThis.browser
+  const screenshotBase64 = await activeDriver.takeScreenshot()
   const screenshotsDir = path.resolve('./reports/screenshots')
   const screenshotPath = path.join(
     screenshotsDir,

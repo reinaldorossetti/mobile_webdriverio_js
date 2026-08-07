@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import dotenv from 'dotenv'
 import { captureFailureScreenshot } from '../tests/helpers/screenshot.helper.js'
 
@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename)
 
 export const sharedConfig = {
   runner: 'local',
-  specs: ['./tests/specs/**/*.spec.js'],
+  specs: [path.join(__dirname, '../tests/specs/*.spec.js')],
   maxInstances: 1,
 
   // Opções: 'trace', 'debug', 'info', 'warn', 'error', 'silent'
