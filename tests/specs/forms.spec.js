@@ -3,8 +3,6 @@ import FormsPage from '../pageobjects/forms.page.js'
 import usersData from '../data/users.json' with { type: 'json' }
 import allureReporter from '@wdio/allure-reporter'
 
-const { textInputResultSelectors } = FormsPage.constructor
-
 describe('Formulários e mensagens de erro', () => {
 
   beforeEach(async () => {
@@ -33,7 +31,7 @@ describe('Formulários e mensagens de erro', () => {
     await FormsPage.assertNativeModalContains('This button is active')
 
     allureReporter.addStep('Validar o texto enviado no resultado')
-    await expect(await $(textInputResultSelectors[0])).toHaveText(formDataText);
+    await expect(await $(FormsPage.constructor.textInputResultSelectors[0])).toHaveText(formDataText);
   })
 
   it('C09 - Deve exibir erro para e-mail inválido', async () => {
