@@ -65,7 +65,10 @@ mobile_webdriverio_js/
 │       ├── navigation.spec.js
 │       └── forms.spec.js
 ├── reports/
-│   ├── allure-results/
+│   ├── allure-results-android/
+│   ├── allure-results-ios/
+│   ├── allure-report-android/
+│   ├── allure-report-ios/
 │   └── screenshots/
 ├── logs/
 ├── .env
@@ -134,14 +137,31 @@ O comando falha caso encontre algum erro, permitindo corrigir os problemas antes
 ## Evidências e relatórios
 
 - `afterTest` configurado para screenshot automático em falha.
-- `@wdio/allure-reporter` configurado com saída em `reports/allure-results`.
+- `@wdio/allure-reporter` configurado com saída isolada por plataforma: `reports/allure-results-android` e `reports/allure-results-ios`.
 
 ### Gerar relatório Allure em arquivo único
 
-Use o comando abaixo para gerar um `index.html` único em `reports/allure-report`:
+Você pode gerar e abrir os relatórios do Allure por plataforma usando os comandos `npm`:
+
+#### Android:
 ```bash
-npx allure generate --single-file reports/allure-results --clean -o reports/allure-report
-npx allure open reports/allure-report
+npm run report:allure:android
+```
+
+#### iOS:
+```bash
+npm run report:allure:ios
+```
+
+Ou manualmente via Allure CLI:
+```bash
+# Android
+npx allure generate --single-file reports/allure-results-android --clean -o reports/allure-report-android
+npx allure open reports/allure-report-android
+
+# iOS
+npx allure generate --single-file reports/allure-results-ios --clean -o reports/allure-report-ios
+npx allure open reports/allure-report-ios
 ```
 
 ### Gerar documentação JSDoc

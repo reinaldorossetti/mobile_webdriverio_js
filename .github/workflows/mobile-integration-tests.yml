@@ -60,24 +60,23 @@ jobs:
           script: |
             mkdir -p reports logs
             adb devices
-            npx wdio run ./config/wdio.android.local.conf.js | tee reports/wdio-android.log
-            TEST_EXIT=${PIPESTATUS[0]}
-            exit ${TEST_EXIT}
+            set -o pipefail
+            npx wdio run ./config/wdio.android.local.conf.js 2>&1 | tee reports/wdio-android.log
         continue-on-error: true
 
-      - name: Gerar PDF do Allure Report
+      - name: Gerar Allure Report (Android)
         if: always()
         run: |
-          npx allure generate --single-file reports/allure-results --clean -o reports/allure-report
+          npx allure generate --single-file reports/allure-results-android --clean -o reports/allure-report-android
         continue-on-error: true
 
-      - name: Upload RestAssured Reports
+      - name: Upload Allure Report HTML
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
+          name: android-allure-report
           path: |
-            reports/allure-report/index.html
+            reports/allure-report-android/index.html
           retention-days: 30
 
       - name: Upload Android test artifacts
@@ -86,7 +85,7 @@ jobs:
         with:
           name: android-wdio-artifacts
           path: |
-            reports/allure-results
+            reports/allure-results-android
             reports/wdio-android.log
             logs
           retention-days: 30
@@ -97,7 +96,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages  # default: gh-pages
-          publish_dir: reports/allure-report
+          publish_dir: reports/allure-report-android
           destination_dir: allure-report
 
       - name: Job summary

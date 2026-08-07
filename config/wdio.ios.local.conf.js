@@ -13,6 +13,19 @@ export const config = {
       logPath: path.resolve(__dirname, '../logs')
     }]
   ],
+  reporters: [
+    'spec',
+    ['allure', {
+      outputDir: path.resolve(__dirname, '../reports/allure-results-ios'),
+      disableWebdriverStepsReporting: true,
+      disableWebdriverScreenshotsReporting: true,
+      addConsoleLogs: true,
+      reportedEnvironmentVars: {
+        TEST_ENV: process.env.TEST_ENV || 'local',
+        PLATFORM: 'iOS'
+      }
+    }]
+  ],
   capabilities: [{
     platformName: 'iOS',
     'appium:deviceName': process.env.IOS_DEVICE_NAME || 'iPhone 15',

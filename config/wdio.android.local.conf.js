@@ -15,6 +15,19 @@ export const config = {
       logPath: path.resolve(__dirname, '../logs')
     }]
   ],
+  reporters: [
+    'spec',
+    ['allure', {
+      outputDir: path.resolve(__dirname, '../reports/allure-results-android'),
+      disableWebdriverStepsReporting: true,
+      disableWebdriverScreenshotsReporting: true,
+      addConsoleLogs: true,
+      reportedEnvironmentVars: {
+        TEST_ENV: process.env.TEST_ENV || 'local',
+        PLATFORM: 'Android'
+      }
+    }]
+  ],
   capabilities: [{
     'wdio:maxInstances': 1,
     platformName: 'Android',

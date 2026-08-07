@@ -10,7 +10,9 @@
     "test:browserstack": "wdio run ./config/wdio.browserstack.conf.js",
     "lint": "eslint config tests --max-warnings=0",
     "docs": "jsdoc config tests -r -d reports/jsdoc",
-    "report:allure": "npx allure generate reports/allure-results --clean -o reports/allure-report && npx allure open reports/allure-report"
+    "report:allure": "npx allure generate reports/allure-results-android --clean -o reports/allure-report-android && npx allure open reports/allure-report-android",
+    "report:allure:android": "npx allure generate reports/allure-results-android --clean -o reports/allure-report-android && npx allure open reports/allure-report-android",
+    "report:allure:ios": "npx allure generate reports/allure-results-ios --clean -o reports/allure-report-ios && npx allure open reports/allure-report-ios"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
