@@ -60,8 +60,7 @@ jobs:
           script: |
             mkdir -p reports logs
             adb devices
-            set -o pipefail
-            npx wdio run ./config/wdio.android.local.conf.js 2>&1 | tee reports/wdio-android.log
+            npx wdio run ./config/wdio.android.local.conf.js
         continue-on-error: true
 
       - name: Gerar Allure Report (Android)

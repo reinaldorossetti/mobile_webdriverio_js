@@ -53,8 +53,7 @@ jobs:
       - name: Run WebdriverIO tests on iOS Simulator
         run: |
           mkdir -p reports logs
-          set -o pipefail
-          npx wdio run ./config/wdio.ios.local.conf.js 2>&1 | tee reports/wdio-ios.log
+          npx wdio run ./config/wdio.ios.local.conf.js
         continue-on-error: true
 
       - name: Gerar Allure report (iOS)
