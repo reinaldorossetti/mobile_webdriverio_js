@@ -4,8 +4,9 @@ Planejamento e esqueleto inicial para automação mobile com **WebdriverIO + App
 
 Os testes estão usando a esteira do Github Actions criando um emulador Android (`mobile-integration-tests.yml`) e um simulador iOS (`ios-integration-tests.yml`) para executar os testes, gerando o relatório no Allure report.
 
-O relatório na esteira do Github Actions:
-https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report/
+Os relatórios publicados via GitHub Pages na esteira do GitHub Actions:
+- **Android Allure Report**: https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report-android/
+- **iOS Allure Report**: https://reinaldorossetti.github.io/mobile_webdriverio_js/allure-report-ios/
 
 ** Observação: ** Temos também o pipeline para rodar no BrowserStack (`browserstack-tests.yml`), mas precisamos de uma conta paga para conseguir subir o app e rodar os testes.
 

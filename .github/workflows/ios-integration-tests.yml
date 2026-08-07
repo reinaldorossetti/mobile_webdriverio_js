@@ -75,6 +75,15 @@ jobs:
             logs
           retention-days: 30
 
+      - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages  # default: gh-pages
+          publish_dir: reports/allure-report-ios
+          destination_dir: allure-report-ios
+
       - name: Job summary
         if: always()
         run: |
@@ -82,4 +91,4 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🍏 Device: iPhone 15" >> $GITHUB_STEP_SUMMARY
           echo "📱 Runtime: iOS 17.5" >> $GITHUB_STEP_SUMMARY
-          echo "📦 Artifacts: ios-wdio-artifacts (allure-report, logs, wdio-ios.log)" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Artifacts: ios-wdio-artifacts (allure-report-ios, logs, wdio-ios.log)" >> $GITHUB_STEP_SUMMARY
