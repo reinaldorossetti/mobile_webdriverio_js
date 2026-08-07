@@ -216,11 +216,22 @@ Para executar a suíte completa ou uma feature em outro ambiente, substitua `wdi
 
 ## Variáveis de ambiente  
 
-Arquivo `.env` criado com placeholders para BrowserStack:  
+Crie um arquivo `.env` na raiz do projeto com as configurações necessárias:
 
-- `BROWSERSTACK_USERNAME`  
-- `BROWSERSTACK_ACCESS_KEY`  
-- `BROWSERSTACK_APP_URL`  
+```env
+# BrowserStack
+BROWSERSTACK_USERNAME=YOUR_BROWSERSTACK_USERNAME
+BROWSERSTACK_ACCESS_KEY=YOUR_BROWSERSTACK_ACCESS_KEY
+BROWSERSTACK_APP_URL=bs://YOUR_APP_ID
+
+# Ambiente
+TEST_ENV=local
+
+# Device Android local
+ANDROID_UDID=ZF525KTJ77
+ANDROID_DEVICE_NAME=moto g86 5G
+ANDROID_PLATFORM_VERSION=16
+```  
 
 ## Próximos passos sugeridos  
 
