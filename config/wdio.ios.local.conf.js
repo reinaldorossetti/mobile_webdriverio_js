@@ -32,6 +32,8 @@ export const config = {
     'appium:platformVersion': process.env.IOS_PLATFORM_VERSION || '17.5',
     'appium:automationName': 'XCUITest',
     'appium:app': path.resolve(__dirname, '../app/ios/ios.simulator.wdio.native.app.v2.2.0.zip'),
-    'appium:newCommandTimeout': 180
+    'appium:wdaLaunchTimeout': 180000,     // Tempo limite para o WebDriverAgent iniciar (3 min)
+    'appium:wdaConnectionTimeout': 180000, // Tempo limite de conexão com o WDA
+    'appium:commandTimeouts': '120000',    // Tempo limite para comandos gerais
   }]
 }

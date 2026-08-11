@@ -17,13 +17,13 @@ export const sharedConfig = {
   logLevel: 'info',
   bail: 0,
   waitforTimeout: 15000,
-  connectionRetryTimeout: 120000,
-  connectionRetryCount: 2,
+  connectionRetryTimeout: 180000,
+  connectionRetryCount: 3,
 
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 120000
+    timeout: 180000
   },
   
   // Salvar logs em um arquivo de saída
