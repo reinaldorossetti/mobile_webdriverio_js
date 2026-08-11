@@ -2,41 +2,41 @@ import BasePage from './base.page.js'
 
 class LoginPage extends BasePage {
   static tabLoginSelectors = [
-    'android=new UiSelector().description("Login")',
     '~Login',
+    'android=new UiSelector().description("Login")',
     '//*[@content-desc="Login"]',
     '//*[@text="Login"]'
   ]
   static loginContainerSelectors = [
+    '~button-login',
     'android=new UiSelector().description("button-login-container")',
     '~button-login-container',
-    '~button-login',
     '//*[@content-desc="button-login-container"]'
   ]
   static signupContainerSelectors = [
-    'android=new UiSelector().description("button-sign-up-container")',
     '~button-sign-up-container',
+    'android=new UiSelector().description("button-sign-up-container")',
     '~button-signup-container',
     '//*[@content-desc="button-sign-up-container"]'
   ]
   static emailInputSelectors = [
-    'android=new UiSelector().description("input-email")',
     '~input-email',
+    'android=new UiSelector().description("input-email")',
     '//*[@content-desc="input-email"]'
   ]
   static passwordInputSelectors = [
-    'android=new UiSelector().description("input-password")',
     '~input-password',
+    'android=new UiSelector().description("input-password")',
     '//*[@content-desc="input-password"]'
   ]
   static loginButtonSelectors = [
-    'android=new UiSelector().description("button-LOGIN")',
     '~button-LOGIN',
+    'android=new UiSelector().description("button-LOGIN")',
     '//*[@content-desc="button-LOGIN"]'
   ]
   static signupButtonSelectors = [
-    'android=new UiSelector().description("button-SIGN UP")',
     '~button-SIGN UP',
+    'android=new UiSelector().description("button-SIGN UP")',
     '~button-SIGNUP',
     '//*[@content-desc="button-SIGN UP"]'
   ]

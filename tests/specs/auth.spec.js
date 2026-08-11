@@ -11,13 +11,18 @@ describe('Autenticação (Login/Cadastro)', () => {
   }
 
   beforeEach(async () => {
+    const bundleId = browser.isIOS 
+        ? 'org.reactjs.native.example.wdiodemoapp' 
+        : 'com.wdiodemoapp';
     await driver.reloadSession()
-    await driver.activateApp('com.wdiodemoapp')
+    await driver.activateApp(bundleId)
   })
 
   afterEach(async () => {
-    await LoginPage.takeEvidence('LoginPage-AfterEach')
-    await driver.terminateApp('com.wdiodemoapp').catch(() => {})
+    const bundleId = browser.isIOS
+        ? 'org.reactjs.native.example.wdiodemoapp' 
+        : 'com.wdiodemoapp';
+    await driver.terminateApp(bundleId).catch(() => {})
   })
 
   it('C01 - Deve realizar login com credenciais válidas', async () => {

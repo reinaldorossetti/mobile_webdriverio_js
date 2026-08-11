@@ -6,12 +6,18 @@ import allureReporter from '@wdio/allure-reporter'
 describe('Formulários e mensagens de erro', () => {
 
   beforeEach(async () => {
+    const bundleId = browser.isIOS 
+        ? 'org.reactjs.native.example.wdiodemoapp' 
+        : 'com.wdiodemoapp';
     await driver.reloadSession()
-    await driver.activateApp('com.wdiodemoapp')
+    await driver.activateApp(bundleId)
   })
 
   afterEach(async () => {
-    await driver.terminateApp('com.wdiodemoapp').catch(() => {})
+    const bundleId = browser.isIOS
+        ? 'org.reactjs.native.example.wdiodemoapp' 
+        : 'com.wdiodemoapp';
+    await driver.terminateApp(bundleId).catch(() => {})
   })
 
   it('C08 - Deve preencher e enviar formulário com dados válidos', async () => {
