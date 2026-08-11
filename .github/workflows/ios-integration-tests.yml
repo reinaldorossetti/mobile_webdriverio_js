@@ -46,7 +46,8 @@ jobs:
           IOS_APP_URL="https://github.com/webdriverio/native-demo-app/releases/download/v2.2.0/ios.simulator.wdio.native.app.v2.2.0.zip"
           echo "Downloading iOS Simulator app package..."
           curl --retry 5 --retry-delay 2 --retry-all-errors -fL "$IOS_APP_URL" -o app/ios/ios.simulator.wdio.native.app.v2.2.0.zip
-          ls -lh app/ios/ios.simulator.wdio.native.app.v2.2.0.zip
+          unzip -o app/ios/ios.simulator.wdio.native.app.v2.2.0.zip -d app/ios/
+          ls -ls app/ios/
 
       - name: Boot iOS Simulator
         run: |
