@@ -47,7 +47,7 @@ jobs:
 
       - name: Boot iOS Simulator
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_16.2.0.app/Contents/Developer
           echo "Creating and booting iPhone 15 Simulator..."
           UDID=$(xcrun simctl create "iPhone 15" "com.apple.CoreSimulator.SimDeviceType.iPhone-15" "com.apple.CoreSimulator.SimRuntime.iOS-17-5" || true)
           if [ -n "$UDID" ]; then
