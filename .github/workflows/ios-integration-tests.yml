@@ -89,6 +89,8 @@ jobs:
           path: |
             reports/allure-results-ios
             reports/allure-report-ios/index.html
+            reports/screenshots
+            reports/page-sources
             reports/wdio-ios.log
             logs
           retention-days: 30

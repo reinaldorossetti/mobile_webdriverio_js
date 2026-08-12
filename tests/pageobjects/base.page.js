@@ -57,17 +57,60 @@ class BasePage {
   }
 
   /**
+   * Captura o código-fonte XML dos elementos da tela (Page Source) e o anexa ao relatório Allure.
+   * @param {string} [name='page-source'] Nome usado no arquivo e no anexo.
+   * @returns {Promise<string>} Caminho do arquivo XML salvo.
+   */
+  async savePageSourceXml(name = 'page-source') {
+    const safeName = name.replace(/[^a-zA-Z0-9-_]/g, '_')
+    const timestamp = Date.now()
+    const fileName = `${timestamp}-${safeName}.xml`
+    const xmlDir = path.resolve('./reports/page-sources')
+    const filePath = path.join(xmlDir, fileName)
+
+    const activeDriver = globalThis.driver || globalThis.browser
+    const pageSource = await activeDriver.getPageSource()
+    await fs.mkdir(xmlDir, { recursive: true })
+    await fs.writeFile(filePath, pageSource, 'utf-8')
+
+    allureReporter.addAttachment(
+      `Page Source XML - ${safeName}`,
+      pageSource,
+      'application/xml'
+    )
+
+    return filePath
+  }
+
+
+  /**
+   * Obtém dinamicamente a lista de seletores apropriada para a plataforma atual (iOS vs Android).
+   * @param {string[]|{ios?: string[], android?: string[]}} selectors Objeto { ios: [], android: [] } ou Array de seletores.
+   * @returns {string[]} Lista de seletores para a plataforma atual.
+   */
+  getSelectors(selectors) {
+    if (!selectors) return []
+    if (Array.isArray(selectors)) return selectors
+
+    const isIOS = driver.isIOS || browser.isIOS || String(driver.capabilities?.platformName || '').toLowerCase() === 'ios'
+    return isIOS
+      ? (selectors.ios || selectors.default || [])
+      : (selectors.android || selectors.default || [])
+  }
+
+  /**
    * Localiza o primeiro elemento visível entre os seletores informados.
-   * @param {string[]} selectors Lista de seletores candidatos.
+   * @param {string[]|{ios?: string[], android?: string[]}} selectors Lista ou objeto de seletores candidatos.
    * @param {number} [timeout=15000] Tempo máximo de espera em milissegundos.
    * @returns {Promise<WebdriverIO.Element>} Primeiro elemento visível encontrado.
    */
   async findFirstVisible(selectors, timeout = BasePage.timeout) {
+    const selectorList = this.getSelectors(selectors)
     let foundElement
 
     await browser.waitUntil(async () => {
       try {
-        for (const selector of selectors) {
+        for (const selector of selectorList) {
           const element = await $(selector)
           if (await element.isDisplayed()) {
             foundElement = element
@@ -86,7 +129,7 @@ class BasePage {
     }, {
       timeout,
       interval: 500,
-      timeoutMsg: `Nenhum elemento visível encontrado para os seletores: ${selectors.join(', ')}`
+      timeoutMsg: `Nenhum elemento visível encontrado para os seletores: ${selectorList.join(', ')}`
     })
 
     return foundElement

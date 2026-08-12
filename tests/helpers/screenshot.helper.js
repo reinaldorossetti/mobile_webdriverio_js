@@ -30,3 +30,33 @@ export async function captureFailureScreenshot(scenarioName) {
 
   return screenshotPath
 }
+
+/**
+ * Captura o código fonte XML dos elementos da tela (Page Source), salva em arquivo e anexa ao Allure.
+ * Deve ser chamado quando um teste falha.
+ *
+ * @param {string} scenarioName Nome do cenário usado no arquivo e no anexo.
+ * @returns {Promise<string>} Caminho absoluto do arquivo XML salvo.
+ */
+export async function captureFailureXml(scenarioName) {
+  const safeName = scenarioName.replace(/[^a-zA-Z0-9-_]/g, '_')
+  const activeDriver = globalThis.driver || globalThis.browser
+  const pageSource = await activeDriver.getPageSource()
+  const xmlDir = path.resolve('./reports/page-sources')
+  const xmlPath = path.join(
+    xmlDir,
+    `${Date.now()}-${safeName}.xml`
+  )
+
+  await fs.mkdir(xmlDir, { recursive: true })
+  await fs.writeFile(xmlPath, pageSource, 'utf-8')
+
+  allureReporter.addAttachment(
+    `Page Source XML - ${scenarioName}`,
+    pageSource,
+    'application/xml'
+  )
+
+  return xmlPath
+}
+

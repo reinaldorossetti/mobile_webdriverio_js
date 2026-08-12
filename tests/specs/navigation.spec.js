@@ -32,7 +32,7 @@ describe('Navegação entre telas', () => {
     await NavigationPage.goToLogin()
 
     allureReporter.addStep('Validar que a tela de Login foi exibida')
-    await expect(await $(LoginPage.constructor.loginButtonSelectors[0])).toBeDisplayed()
+    await LoginPage.assertOnLoginTab()
   })
 
   it('C06 - Deve navegar da Home para Formulários', async () => {
@@ -43,7 +43,7 @@ describe('Navegação entre telas', () => {
     await NavigationPage.goToForms()
 
     allureReporter.addStep('Validar que a tela de Formulários foi exibida')
-    await expect(await $(FormsPage.constructor.formsScreenSelectors[0])).toBeDisplayed()
+    await FormsPage.assertOnFormsScreen()
   })
 
   it('C07 - Deve retornar para Home a partir de tela interna', async () => {
@@ -55,6 +55,6 @@ describe('Navegação entre telas', () => {
     await NavigationPage.goToHome()
 
     allureReporter.addStep('Validar que a tela Home foi exibida')
-    await expect(await $(HomePage.constructor.homeScreenSelectors[0])).toBeDisplayed()
+    await HomePage.assertOnHomeScreen()
   })
 })

@@ -85,6 +85,8 @@ jobs:
           name: android-wdio-artifacts
           path: |
             reports/allure-results-android
+            reports/screenshots
+            reports/page-sources
             reports/wdio-android.log
             logs
           retention-days: 30

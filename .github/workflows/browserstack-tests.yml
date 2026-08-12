@@ -50,6 +50,8 @@ jobs:
           path: |
             reports/allure-results
             reports/allure-report/index.html
+            reports/screenshots
+            reports/page-sources
             reports/wdio-browserstack.log
             logs
           retention-days: 30

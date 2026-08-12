@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import dotenv from 'dotenv'
-import { captureFailureScreenshot } from '../tests/helpers/screenshot.helper.js'
+import { captureFailureScreenshot, captureFailureXml } from '../tests/helpers/screenshot.helper.js'
 
 dotenv.config()
 
@@ -46,6 +46,7 @@ export const sharedConfig = {
     if (error) {
       try {
         await captureFailureScreenshot(test.title)
+        await captureFailureXml(test.title)
       } catch {
         // sessão pode já ter sido encerrada; evita mascarar o erro original do teste
       }

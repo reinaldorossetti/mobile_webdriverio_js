@@ -1,45 +1,93 @@
 import BasePage from './base.page.js'
 
 class LoginPage extends BasePage {
-  static tabLoginSelectors = [
-    '~Login',
-    'android=new UiSelector().description("Login")',
-    '//*[@content-desc="Login"]',
-    '//*[@text="Login"]'
-  ]
-  static loginContainerSelectors = [
-    '~button-login',
-    'android=new UiSelector().description("button-login-container")',
-    '~button-login-container',
-    '//*[@content-desc="button-login-container"]'
-  ]
-  static signupContainerSelectors = [
-    '~button-sign-up-container',
-    'android=new UiSelector().description("button-sign-up-container")',
-    '~button-signup-container',
-    '//*[@content-desc="button-sign-up-container"]'
-  ]
-  static emailInputSelectors = [
-    '~input-email',
-    'android=new UiSelector().description("input-email")',
-    '//*[@content-desc="input-email"]'
-  ]
-  static passwordInputSelectors = [
-    '~input-password',
-    'android=new UiSelector().description("input-password")',
-    '//*[@content-desc="input-password"]'
-  ]
-  static loginButtonSelectors = [
-    '~button-LOGIN',
-    'android=new UiSelector().description("button-LOGIN")',
-    '//*[@content-desc="button-LOGIN"]'
-  ]
-  static signupButtonSelectors = [
-    '~button-SIGN UP',
-    'android=new UiSelector().description("button-SIGN UP")',
-    '~button-SIGNUP',
-    '//*[@content-desc="button-SIGN UP"]'
-  ]
+  static tabLoginSelectors = {
+    ios: [
+      '~Login',
+      '-ios predicate string:label == "Login" OR name == "Login"'
+    ],
+    android: [
+      'android=new UiSelector().description("Login")',
+      '~Login',
+      '//*[@content-desc="Login"]',
+      '//*[@text="Login"]'
+    ]
+  }
+
+  static loginContainerSelectors = {
+    ios: [
+      '~button-login-container',
+      '~button-login',
+      '-ios predicate string:label == "button-login-container" OR name == "button-login-container"'
+    ],
+    android: [
+      'android=new UiSelector().description("button-login-container")',
+      '~button-login-container',
+      '//*[@content-desc="button-login-container"]'
+    ]
+  }
+
+  static signupContainerSelectors = {
+    ios: [
+      '~button-sign-up-container',
+      '~button-signup-container',
+      '-ios predicate string:label == "button-sign-up-container" OR name == "button-sign-up-container"'
+    ],
+    android: [
+      'android=new UiSelector().description("button-sign-up-container")',
+      '~button-sign-up-container',
+      '//*[@content-desc="button-sign-up-container"]'
+    ]
+  }
+
+  static emailInputSelectors = {
+    ios: [
+      '~input-email',
+      '-ios predicate string:label == "input-email" OR name == "input-email"'
+    ],
+    android: [
+      'android=new UiSelector().description("input-email")',
+      '~input-email',
+      '//*[@content-desc="input-email"]'
+    ]
+  }
+
+  static passwordInputSelectors = {
+    ios: [
+      '~input-password',
+      '-ios predicate string:label == "input-password" OR name == "input-password"'
+    ],
+    android: [
+      'android=new UiSelector().description("input-password")',
+      '~input-password',
+      '//*[@content-desc="input-password"]'
+    ]
+  }
+
+  static loginButtonSelectors = {
+    ios: [
+      '~button-LOGIN',
+      '-ios predicate string:label == "LOGIN" OR name == "button-LOGIN"'
+    ],
+    android: [
+      'android=new UiSelector().description("button-LOGIN")',
+      '~button-LOGIN',
+      '//*[@content-desc="button-LOGIN"]'
+    ]
+  }
+
+  static signupButtonSelectors = {
+    ios: [
+      '~button-SIGN UP',
+      '~button-SIGNUP',
+      '-ios predicate string:label == "SIGN UP" OR name == "button-SIGN UP"'
+    ],
+    android: [
+      'android=new UiSelector().description("button-SIGN UP")',
+      '~button-SIGN UP',
+      '//*[@content-desc="button-SIGN UP"]'
+    ]
+  }
 
   async openLogin() {
     await this.ensureAppInForeground()

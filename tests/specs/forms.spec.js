@@ -41,7 +41,7 @@ describe('Formulários e mensagens de erro', () => {
     await FormsPage.assertNativeModalContains('This button is active')
 
     allureReporter.addStep('Validar o texto enviado no resultado')
-    await expect(await $(FormsPage.constructor.textInputResultSelectors[0])).toHaveText(formDataText);
+    await FormsPage.assertTextResultContains(formDataText);
   })
 
   it('C09 - Deve exibir erro para e-mail inválido', async () => {
