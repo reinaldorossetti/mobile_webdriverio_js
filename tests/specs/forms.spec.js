@@ -6,18 +6,22 @@ import allureReporter from '@wdio/allure-reporter'
 describe('Formulários e mensagens de erro', () => {
 
   beforeEach(async () => {
-    const bundleId = browser.isIOS 
-        ? 'org.reactjs.native.example.wdiodemoapp' 
-        : 'com.wdiodemoapp';
-    await driver.reloadSession()
+    const bundleId = browser.isIOS
+      ? 'org.reactjs.native.example.wdiodemoapp'
+      : 'com.wdiodemoapp';
+
+    if (!browser.isIOS) {
+      await driver.reloadSession()
+    }
     await driver.activateApp(bundleId)
   })
 
   afterEach(async () => {
     const bundleId = browser.isIOS
-        ? 'org.reactjs.native.example.wdiodemoapp' 
-        : 'com.wdiodemoapp';
-    await driver.terminateApp(bundleId).catch(() => {})
+      ? 'org.reactjs.native.example.wdiodemoapp'
+      : 'com.wdiodemoapp';
+    await FormsPage.takeEvidence('FormsPage-AfterEach')
+    await driver.terminateApp(bundleId).catch(() => { })
   })
 
   it('C08 - Deve preencher e enviar formulário com dados válidos', async () => {
@@ -28,7 +32,7 @@ describe('Formulários e mensagens de erro', () => {
 
     allureReporter.addStep('Selecionar webdriver.io is awesome no Dropdown')
     await FormsPage.selectDropdownOption()
-    
+
     allureReporter.addStep('Preencher o campo de texto com dados válidos e Envia')
     await FormsPage.fillTextInput(formDataText)
     await FormsPage.submitForm()

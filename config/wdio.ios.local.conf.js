@@ -36,6 +36,7 @@ export const config = {
     'appium:app': path.resolve(__dirname, '../app/ios/wdiodemoapp.app'),
     'appium:wdaLaunchTimeout': 180000,     // Tempo limite para o WebDriverAgent iniciar (3 min)
     'appium:wdaConnectionTimeout': 180000, // Tempo limite de conexão com o WDA
+    'appium:simulatorStartupTimeout': 180000, // Tempo limite para iniciar o simulador
     'appium:commandTimeouts': '120000',    // Tempo limite para comandos gerais
     'appium:noReset': true, // Não redefinir o estado do aplicativo entre os testes
     'appium:fullReset': false,
