@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename)
 export const config = {
   ...sharedConfig,
   port: 4723,
+  baseUrl: 'http://127.0.0.1',
   maxInstances: 1,
   maxInstancesPerCapability: 1,
   services: [
@@ -41,5 +42,6 @@ export const config = {
     'appium:noReset': true, // Não redefinir o estado do aplicativo entre os testes
     'appium:fullReset': false,
     'appium:autoAcceptAlerts': false,
+    "appium:enforceAppLaunch": true
   }]
 }
