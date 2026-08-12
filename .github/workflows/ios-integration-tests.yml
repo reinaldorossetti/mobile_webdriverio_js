@@ -58,7 +58,7 @@ jobs:
             xcrun simctl boot "$UDID" || true
           fi
           xcrun simctl list devices | grep -E "iPhone 15|Booted"
-          xcodebuild clean
+        continue-on-error: true
 
       - name: Run WebdriverIO tests on iOS Simulator
         run: |
