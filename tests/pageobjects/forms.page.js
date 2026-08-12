@@ -4,7 +4,8 @@ class FormsPage extends BasePage {
   static formsTabSelectors = {
     ios: [
       '~Forms',
-      '-ios predicate string:label == "Forms" OR name == "Forms"'
+      '-ios predicate string:name == "Forms" OR label == "Forms"',
+      '//XCUIElementTypeButton[@name="Forms"]'
     ],
     android: [
       'android=new UiSelector().description("Forms")',
@@ -17,7 +18,9 @@ class FormsPage extends BasePage {
   static formsScreenSelectors = {
     ios: [
       '~Forms-screen',
-      '-ios predicate string:label == "Form components" OR name == "Form components"'
+      '-ios predicate string:name == "Forms-screen" OR label == "Form components" OR name == "Form components"',
+      '//XCUIElementTypeOther[@name="Forms-screen"]',
+      '//XCUIElementTypeStaticText[@name="Form components"]'
     ],
     android: [
       'android=new UiSelector().description("Forms-screen")',
@@ -30,7 +33,8 @@ class FormsPage extends BasePage {
   static textInputSelectors = {
     ios: [
       '~text-input',
-      '-ios predicate string:label == "text-input" OR name == "text-input"'
+      '-ios predicate string:name == "text-input" OR placeholderValue == "Type something" OR value == "Type something"',
+      '//XCUIElementTypeTextField[@name="text-input"]'
     ],
     android: [
       'android=new UiSelector().description("text-input")',
@@ -43,7 +47,8 @@ class FormsPage extends BasePage {
   static textInputResultSelectors = {
     ios: [
       '~input-text-result',
-      '-ios predicate string:label == "input-text-result" OR name == "input-text-result"'
+      '-ios predicate string:name == "input-text-result" OR label == "input-text-result"',
+      '//XCUIElementTypeStaticText[@name="input-text-result"]'
     ],
     android: [
       'android=new UiSelector().description("input-text-result")',
@@ -55,8 +60,9 @@ class FormsPage extends BasePage {
   static dropdownSelectors = {
     ios: [
       '~Dropdown',
-      '-ios predicate string:label == "Select an item..." OR name == "Select an item..."',
-      '//*[@label="Select an item..."]'
+      '-ios predicate string:name == "Dropdown" OR value == "Select an item..." OR label == "Select an item..."',
+      '//XCUIElementTypeOther[@name="Dropdown"]',
+      '//XCUIElementTypeTextField[@value="Select an item..."]'
     ],
     android: [
       'android=new UiSelector().text("Select an item...")',
@@ -67,8 +73,10 @@ class FormsPage extends BasePage {
   static dropdownOptionSelectors = {
     ios: [
       '~webdriver.io is awesome',
-      '-ios predicate string:label == "webdriver.io is awesome" OR name == "webdriver.io is awesome"',
-      '//*[@label="webdriver.io is awesome"]'
+      '-ios predicate string:label == "webdriver.io is awesome" OR name == "webdriver.io is awesome" OR value == "webdriver.io is awesome"',
+      '//XCUIElementTypePickerWheel',
+      '//*[@label="webdriver.io is awesome"]',
+      '//*[@value="webdriver.io is awesome"]'
     ],
     android: [
       'android=new UiSelector().text("webdriver.io is awesome")',
@@ -79,7 +87,9 @@ class FormsPage extends BasePage {
   static activeButtonSelectors = {
     ios: [
       '~button-Active',
-      '-ios predicate string:label == "Active" OR name == "button-Active"'
+      '-ios predicate string:name == "button-Active" OR label == "Active"',
+      '//XCUIElementTypeOther[@name="button-Active"]',
+      '//XCUIElementTypeStaticText[@name="Active"]'
     ],
     android: [
       'android=new UiSelector().description("button-Active")',
@@ -108,7 +118,22 @@ class FormsPage extends BasePage {
 
   async selectDropdownOption() {
     await this.tapFirstVisible(FormsPage.dropdownSelectors)
-    await this.tapFirstVisible(FormsPage.dropdownOptionSelectors)
+    try {
+      await this.tapFirstVisible(FormsPage.dropdownOptionSelectors, 5000)
+    } catch {
+      // Suporte para PickerWheel nativo do iOS se o modal de rodinha for exibido
+      const isIOS = driver.isIOS || browser.isIOS || String(driver.capabilities?.platformName || '').toLowerCase() === 'ios'
+      if (isIOS) {
+        const picker = await $('//XCUIElementTypePickerWheel')
+        if (await picker.isDisplayed().catch(() => false)) {
+          await picker.selectByAttribute('value', 'webdriver.io is awesome').catch(() => {})
+          const doneButton = await $('-ios predicate string:label == "Done" OR name == "Done"')
+          if (await doneButton.isDisplayed().catch(() => false)) {
+            await doneButton.click()
+          }
+        }
+      }
+    }
   }
 
   async submitForm() {

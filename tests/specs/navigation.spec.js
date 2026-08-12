@@ -24,7 +24,7 @@ describe('Navegação entre telas', () => {
     await driver.terminateApp(bundleId).catch(() => { })
   })
 
-  it('C05 - Deve navegar da Home para Login', async () => {
+  it('CT05 - Deve navegar da Home para Login', async () => {
     allureReporter.addStep('Acessar a tela Home')
     await HomePage.openHome()
 
@@ -35,7 +35,7 @@ describe('Navegação entre telas', () => {
     await LoginPage.assertOnLoginTab()
   })
 
-  it('C06 - Deve navegar da Home para Formulários', async () => {
+  it('CT06 - Deve navegar da Home para Formulários', async () => {
     allureReporter.addStep('Acessar a tela Home')
     await HomePage.openHome()
 
@@ -46,7 +46,7 @@ describe('Navegação entre telas', () => {
     await FormsPage.assertOnFormsScreen()
   })
 
-  it('C07 - Deve retornar para Home a partir de tela interna', async () => {
+  it('CT07 - Deve retornar para Home a partir de tela interna', async () => {
     allureReporter.addStep('Acessar a tela de Formulários')
     await NavigationPage.goToForms()
     await FormsPage.assertOnFormsScreen()
