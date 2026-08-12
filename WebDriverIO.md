@@ -533,11 +533,14 @@ npm run report:allure
 - App sob teste: `app/android/android.wdio.native.app.v2.2.0.apk`
 - Arquivo de config: `config/wdio.android.local.conf.js`
 
-### iOS local
+### iOS local e CI/CD
 
-- App sob teste: `app/ios/ios.simulator.wdio.native.app.v2.2.0.zip`
+- App sob teste: `app/ios/wdiodemoapp.app` (Bundle Identifier: `org.wdiodemoapp`)
 - Arquivo de config: `config/wdio.ios.local.conf.js`
-- Requer macOS + Xcode
+- Suporte a injetar o UDID do dispositivo/simulador dinamicamente via `IOS_UDID`
+- Suporte nativo a seletores iOS (`-ios predicate string`, `accessibility id` `~`, `XCUIElementTypePickerWheel`)
+- Geração automática de evidências de falha (`reports/screenshots/*.png` e `reports/page-sources/*.xml`)
+- Requer macOS + Xcode + driver Appium `xcuitest`
 
 ### BrowserStack (opcional)
 
