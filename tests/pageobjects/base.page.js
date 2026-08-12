@@ -3,7 +3,12 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 
 class BasePage {
-  static appPackage = 'com.wdiodemoapp'
+  static get appPackage() {
+    const platformName = String(driver.capabilities?.platformName || '').toLowerCase()
+    return (driver.isIOS || platformName === 'ios')
+      ? 'org.wdiodemoapp'
+      : 'com.wdiodemoapp'
+  }
   static timeout = 20000
 
   /**

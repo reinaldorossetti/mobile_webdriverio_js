@@ -7,7 +7,7 @@ import allureReporter from '@wdio/allure-reporter'
 describe('Navegação entre telas', () => {
   beforeEach(async () => {
     const bundleId = browser.isIOS
-      ? 'org.reactjs.native.example.wdiodemoapp'
+      ? 'org.wdiodemoapp'
       : 'com.wdiodemoapp';
 
     if (!browser.isIOS) {

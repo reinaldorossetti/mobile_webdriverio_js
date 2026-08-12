@@ -7,7 +7,7 @@ describe('Formulários e mensagens de erro', () => {
 
   beforeEach(async () => {
     const bundleId = browser.isIOS
-      ? 'org.reactjs.native.example.wdiodemoapp'
+      ? 'org.wdiodemoapp'
       : 'com.wdiodemoapp';
 
     if (!browser.isIOS) {

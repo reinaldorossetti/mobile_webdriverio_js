@@ -14,7 +14,7 @@ export const sharedConfig = {
   maxInstances: 1,
 
   // Opções: 'trace', 'debug', 'info', 'warn', 'error', 'silent'
-  logLevel: 'info',
+  logLevel: 'debug',
   bail: 0,
   waitforTimeout: 15000,
   connectionRetryTimeout: 180000,
@@ -25,7 +25,7 @@ export const sharedConfig = {
     ui: 'bdd',
     timeout: 180000
   },
-  
+
   // Salvar logs em um arquivo de saída
   outputDir: path.resolve(__dirname, '../logs'),
 

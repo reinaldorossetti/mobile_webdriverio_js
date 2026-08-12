@@ -43,6 +43,8 @@ export const config = {
     'appium:noReset': true, // Não redefinir o estado do aplicativo entre os testes
     'appium:fullReset': false,
     'appium:autoAcceptAlerts': false,
-    "appium:enforceAppLaunch": true
+    "appium:enforceAppLaunch": true,
+    // This is needed to wait for the webview context to become available
+    'appium:webviewConnectTimeout': 5000,
   }]
 }
