@@ -11,18 +11,18 @@ describe('Autenticação (Login/Cadastro)', () => {
   }
 
   beforeEach(async () => {
-    const bundleId = browser.isIOS 
-        ? 'org.reactjs.native.example.wdiodemoapp' 
-        : 'com.wdiodemoapp';
+    const bundleId = browser.isIOS
+      ? 'org.wdiodemoapp'
+      : 'com.wdiodemoapp';
     await driver.reloadSession()
     await driver.activateApp(bundleId)
   })
 
   afterEach(async () => {
     const bundleId = browser.isIOS
-        ? 'org.reactjs.native.example.wdiodemoapp' 
-        : 'com.wdiodemoapp';
-    await driver.terminateApp(bundleId).catch(() => {})
+      ? 'org.wdiodemoapp'
+      : 'com.wdiodemoapp';
+    await driver.terminateApp(bundleId).catch(() => { })
   })
 
   it('C01 - Deve realizar login com credenciais válidas', async () => {
@@ -39,7 +39,7 @@ describe('Autenticação (Login/Cadastro)', () => {
 
     allureReporter.addStep('Realizar login com as credenciais cadastradas')
     await LoginPage.loginWith(signupUser.email, signupUser.password)
-    
+
     allureReporter.addStep('Validar login realizado com sucesso')
     await LoginPage.assertNativeModalContains(['Success', 'You are logged in!'])
   })
@@ -49,10 +49,10 @@ describe('Autenticação (Login/Cadastro)', () => {
 
     allureReporter.addStep('Acessar a tela de Login')
     await LoginPage.openLogin()
-    
+
     allureReporter.addStep('Tentar login com credenciais inválidas')
     await LoginPage.loginWith(invalidUser.username, invalidUser.password)
-    
+
     allureReporter.addStep('Validar mensagem de erro do login')
     await LoginPage.assertNativeModalContains('Please enter a valid email address')
   })
@@ -66,11 +66,11 @@ describe('Autenticação (Login/Cadastro)', () => {
     allureReporter.addStep('Acessar a tela de cadastro')
     await SignupPage.openSignup()
     await SignupPage.assertOnSignupTab()
-    
+
     allureReporter.addStep('Cadastrar novo usuário com dados válidos')
     await SignupPage.fillSignupForm(user)
     await SignupPage.submitSignup()
-    
+
     await SignupPage.assertNativeModalContains(['Signed Up!', 'You successfully signed up!'])
   })
 
@@ -78,14 +78,14 @@ describe('Autenticação (Login/Cadastro)', () => {
     allureReporter.addStep('Acessar a tela de cadastro')
     await SignupPage.openSignup()
     await SignupPage.assertOnSignupTab()
-    
+
     allureReporter.addStep('Enviar cadastro sem preencher os campos obrigatórios')
     await SignupPage.fillSignupForm({
       email: '',
       password: ''
     })
     await SignupPage.submitSignup()
-    
+
     allureReporter.addStep('Validar mensagens de erro dos campos obrigatórios')
     await SignupPage.assertNativeModalContains('Please enter a valid email address')
     await SignupPage.assertNativeModalContains('Please enter at least 8 characters')

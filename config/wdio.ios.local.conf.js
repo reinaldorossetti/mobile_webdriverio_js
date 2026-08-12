@@ -33,6 +33,7 @@ export const config = {
     platformName: 'iOS',
     'appium:deviceName': process.env.IOS_DEVICE_NAME || 'iPhone 15',
     'appium:platformVersion': process.env.IOS_PLATFORM_VERSION || '17.5',
+    ...(process.env.IOS_UDID ? { 'appium:udid': process.env.IOS_UDID } : {}),
     'appium:automationName': 'XCUITest',
     'appium:app': path.resolve(__dirname, '../app/ios/wdiodemoapp.app'),
     'appium:wdaLaunchTimeout': 180000,     // Tempo limite para o WebDriverAgent iniciar (3 min)

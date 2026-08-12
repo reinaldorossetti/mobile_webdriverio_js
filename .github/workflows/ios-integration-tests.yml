@@ -59,14 +59,18 @@ jobs:
           fi
           xcrun simctl list devices | grep -E "iPhone 15|Booted"
           
-          UUID=$(xcrun simctl list devices "iPhone 15" available | grep -m 1 -oE '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}')
-          echo "Booting Simulator UUID: $UUID"
-          xcrun simctl boot "$UUID"
+          UUID=$(xcrun simctl list devices | grep Booted | grep -m 1 -oE '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' || xcrun simctl list devices "iPhone 15" available | grep -m 1 -oE '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' || echo "")
+          echo "Booted Simulator UUID: $UUID"
+          if [ -n "$UUID" ]; then
+            xcrun simctl boot "$UUID" || true
+            echo "IOS_UDID=$UUID" >> $GITHUB_ENV
+          fi
         continue-on-error: true
 
       - name: Run WebdriverIO tests on iOS Simulator
         run: |
           mkdir -p reports logs
+          echo "Using IOS_UDID: $IOS_UDID"
           xcrun simctl install booted app/ios/wdiodemoapp.app
           npx wdio run ./config/wdio.ios.local.conf.js
         continue-on-error: true

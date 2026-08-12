@@ -6,15 +6,22 @@ import allureReporter from '@wdio/allure-reporter'
 
 describe('Navegação entre telas', () => {
   beforeEach(async () => {
+    const bundleId = browser.isIOS
+      ? 'org.reactjs.native.example.wdiodemoapp'
+      : 'com.wdiodemoapp';
+
     if (!browser.isIOS) {
       await driver.reloadSession()
     }
-    await driver.activateApp('com.wdiodemoapp')
+    await driver.activateApp(bundleId)
   })
 
   afterEach(async () => {
-    await LoginPage.takeEvidence('LoginPage-AfterEach')
-    await driver.terminateApp('com.wdiodemoapp').catch(() => { })
+    const bundleId = browser.isIOS
+      ? 'org.wdiodemoapp'
+      : 'com.wdiodemoapp';
+    await FormsPage.takeEvidence('FormsPage-AfterEach')
+    await driver.terminateApp(bundleId).catch(() => { })
   })
 
   it('C05 - Deve navegar da Home para Login', async () => {

@@ -18,7 +18,7 @@ describe('Formulários e mensagens de erro', () => {
 
   afterEach(async () => {
     const bundleId = browser.isIOS
-      ? 'org.reactjs.native.example.wdiodemoapp'
+      ? 'org.wdiodemoapp'
       : 'com.wdiodemoapp';
     await FormsPage.takeEvidence('FormsPage-AfterEach')
     await driver.terminateApp(bundleId).catch(() => { })
